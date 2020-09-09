@@ -4,18 +4,30 @@
 
 int main(int argc, char const *argv[]) {
 
-    float frequency;
-    float sampleRate;
-    float duration;
+    char phoneNumber[11];
 
-    printf("Input a frequency in hertz:\n");
-    scanf("%f", &frequency);
-    printf("Input a sample rate in hertz:\n");
-    scanf("%f", &sampleRate);
-    printf("Input a time duraiton in seconds:\n");
-    scanf("%f", &duration);
+    printf("Input a 10 digit phone number:\n");
+    scanf("%s", phoneNumber);
 
-    //run gensnd
+    dualtone(phoneNumber[0]);
+    silence(8000, 0.25);
+    dualtone(phoneNumber[1]);
+    silence(8000, 0.25);
+    dualtone(phoneNumber[2]);
+    silence(8000, 0.25);
+    dualtone(phoneNumber[3]);
+    silence(8000, 0.25);
+    dualtone(phoneNumber[4]);
+    silence(8000, 0.25);
+    dualtone(phoneNumber[5]);
+    silence(8000, 0.25);
+    dualtone(phoneNumber[6]);
+    silence(8000, 0.25);
+    dualtone(phoneNumber[7]);
+    silence(8000, 0.25);
+    dualtone(phoneNumber[8]);
+    silence(8000, 0.25);
+    dualtone(phoneNumber[9]);
 
     return 0;
 }

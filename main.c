@@ -16,7 +16,6 @@ int main(int argc, char const *argv[]) {
     printf("Input a time duraiton in seconds:\n");
     scanf("%f", &duration);
 
-    //run gensnd
     gensine(frequency, sampleRate, duration);
 
     return 0;
