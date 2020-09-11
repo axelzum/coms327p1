@@ -3,6 +3,11 @@
 #include <math.h>
 #include <stdio.h>
 
+/*
+ *  Generates a sine wave of a specified frequency in Hz, sampleRate in Hz,
+ *  and duration in seconds.
+ *  Returns no output just sends the value of the sinewave to stdout.
+ */
 void gensine(float frequency, float sampleRate, float duration) {
     float outputSamples = sampleRate * duration;
     float samplesPerCycle = sampleRate / frequency;
@@ -16,6 +21,11 @@ void gensine(float frequency, float sampleRate, float duration) {
     }
 }
 
+/*
+ *  Given a pressed key on a touch-tone dial keypad, generates a sine wave
+ *  corresponding to the two frequencies attributed to that key. The sine has
+ *  a frequency of 8000Hz and a duration of 500ms.
+ */
 void dualtone(char key) {
     float frequency1, frequency2;
 
@@ -93,7 +103,7 @@ void dualtone(char key) {
             return;
     }
 
-    float outputSamples = 8000 * 0.5;
+    float outputSamples = 8000 * 0.5; //frequency: 8000Hz, duration: 500ms
     float samplesPerCycle1 = 8000 / frequency1;
     float samplesPerCycle2 = 8000 / frequency2;
     float outputInterval1 = (2.0 * M_PI) / samplesPerCycle1;
@@ -103,10 +113,16 @@ void dualtone(char key) {
     int i;
     for(i = 0; i < outputSamples + 1; i++) {
         printf("%lf\n", sin(radians));
+        //Averages the two output intervals to get the added frequency.
+        //Also could have averaged the two frequencies together.
         radians += (outputInterval1 + outputInterval2) / 2;
     }
 }
 
+/*
+ *  Generates a a sine wave that produces no sound (0) over a given duration
+ *  and sample rate.
+ */
 void silence(float sampleRate, float duration) {
     float outputSamples = sampleRate * duration;
 

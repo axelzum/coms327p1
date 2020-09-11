@@ -2,12 +2,18 @@
 
 #include <stdio.h>
 
+/*
+ *  Asks the user for a frequency, sample rate, and duration and prints a
+ *  sine wave produced by those parameters.
+ */
 int main(int argc, char const *argv[]) {
 
     float frequency;
     float sampleRate;
     float duration;
 
+    //The while loops check the user inputs for validity (are positive)
+    //The program will not continue until all inputs are valid. 
     while (1) {
         printf("Input a positive frequency in hertz:\n");
         scanf("%f", &frequency);

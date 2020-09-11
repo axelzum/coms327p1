@@ -2,6 +2,11 @@
 
 #include <stdio.h>
 
+/*
+ *  Takes a 10 digit number as user input and outputs the sine wave that is
+ *  produced by the dualtone of pressing those keys. Each tone is played
+ *  for 500ms with 250ms of silence inbetween.
+ */
 int main(int argc, char const *argv[]) {
 
     char phoneNumber[11];
