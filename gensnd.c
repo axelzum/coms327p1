@@ -2,6 +2,7 @@
 
 #include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 /*
  *  Generates a sine wave of a specified frequency in Hz, sampleRate in Hz,
@@ -26,7 +27,7 @@ void gensine(float frequency, float sampleRate, float duration) {
  *  with the size in the struct being the number of samples generated and
  */
 sound* gensine2(float hertz, float sample_rate, float duration) {
-    sound output;
+    static sound output;
 
     float outputSamples = sample_rate * duration;
     output.samples = malloc((int)outputSamples * sizeof *output.samples);
@@ -42,7 +43,7 @@ sound* gensine2(float hertz, float sample_rate, float duration) {
         radians += outputInterval;
     }
 
-    return output;
+    return &output;
 }
 
 /*
@@ -83,9 +84,9 @@ sound* genDTMF2(char key, float sample_rate, float duration) {
 
     if (getFrequency(key, &frequency1, &frequency2) != 0) {
         printf("Not a valid numpad character.\n");
-        return;
+        return NULL;
     }
-    sound output;
+    static sound output;
 
     float outputSamples = sample_rate * duration;
     output.samples = malloc((int)outputSamples * sizeof *output.samples);
@@ -103,7 +104,7 @@ sound* genDTMF2(char key, float sample_rate, float duration) {
         radians += (outputInterval1 + outputInterval2) / 2;;
     }
 
-    return output;
+    return &output;
 }
 
 /*
@@ -205,23 +206,19 @@ void silence(float sampleRate, float duration) {
  *  Returns a pointer to a sound struct
  */
 sound* genSilence(float sample_rate, float duration) {
-    sound output;
+    static sound output;
 
     float outputSamples = sample_rate * duration;
     output.samples = malloc((int)outputSamples * sizeof *output.samples);
     output.length = (int)outputSamples;
     output.rate = sample_rate;
-    float samplesPerCycle = sample_rate / hertz;
-    float outputInterval = (2.0 * M_PI) / samplesPerCycle;
 
-    double radians = 0.0;
     int i;
     for(i = 0; i < outputSamples + 1; i++) {
         output.samples[i] = sin(0.0);
-        radians += outputInterval;
     }
 
-    return output;
+    return &output;
 }
 
 /*
@@ -231,7 +228,9 @@ sound* genSilence(float sample_rate, float duration) {
 int outputSound(sound *s, FILE *f) {
     f = fopen("outputSound.txt", "w");
     int i;
-    for (i=0; i<s.length; i++) {
-        fprintf(f, "%lf\n", s.samples[i]);
+    for (i=0; i<s->length; i++) {
+        fprintf(f, "%lf\n", s->samples[i]);
     }
+
+    return 0;
 }

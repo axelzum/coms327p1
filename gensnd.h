@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 typedef struct sound_t {
     float* samples; // Sound samples
     int length;     // Number of samples in the samples array
