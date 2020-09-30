@@ -1,7 +1,20 @@
 # coms327p1
-Running the makefile in this project generates two execuatbles: gensine and gendial.
 
-### gensine
+### Part B
+Running the makefile in this project generates one executable: dtmf
+
+#### dtmf
+Allows two user command line arguments: phoneNumber and filename
+phoneNumber(REQUIRED): The phone number sequence to convert to waveform. The 
+phone number must consist only of digits 0-9, *, #, A, B, C, D.
+
+filename: If included, outputs the sine wave to this filename. If no filename is
+included as an argument program outputs sinewave to stdout.
+
+### Part A
+Running the makefile in this project generates two executables: gensine and gendial.
+
+#### gensine
 Asks the user to input a positive frequency, sample rate, and duration.
 These values are used to generate sine waves that can be converted into an audio tone.
 
@@ -9,7 +22,7 @@ The freqency determines the pitch of the sound created. The sample rate determin
 how many samples are taken over a certain period of time. And the duration determines
 how long the sound will play for.
 
-### gendial
+#### gendial
 Asks the user to input a 10-digit phone number. The phone number must consist only of digits
 0-9, *, #, A, B, C, D.
 Given this number genail prints a series of sine waves reprenting the tone that results
