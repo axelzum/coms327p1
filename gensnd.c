@@ -86,22 +86,25 @@ sound* genDTMF2(char key, float sample_rate, float duration) {
         printf("Not a valid numpad character.\n");
         return NULL;
     }
+
+    sound* output1 = gensine2(frequency1, sample_rate, duration);
+
+
     static sound output;
 
     float outputSamples = sample_rate * duration;
     output.samples = malloc((int)outputSamples * sizeof *output.samples);
     output.length = (int)outputSamples;
     output.rate = sample_rate;
-    float samplesPerCycle1 = sample_rate / frequency1;
-    float samplesPerCycle2 = sample_rate / frequency2;
-    float outputInterval1 = (2.0 * M_PI) / samplesPerCycle1;
-    float outputInterval2 = (2.0 * M_PI) / samplesPerCycle2;
 
-    double radians = 0.0;
     int i;
     for(i = 0; i < outputSamples + 1; i++) {
-        output.samples[i] = sin(radians);
-        radians += (outputInterval1 + outputInterval2) / 2;;
+        output.samples[i] = output1->samples[i];
+    }
+
+    sound* output2 = gensine2(frequency2, sample_rate, duration);
+    for(i = 0; i < outputSamples + 1; i++) {
+        output.samples[i] = (output.samples[i] + output2->samples[i]) / 2;
     }
 
     return &output;
@@ -226,11 +229,11 @@ sound* genSilence(float sample_rate, float duration) {
  *  Returns 0 if write was a success, 1 otherwise.
  */
 int outputSound(sound *s, FILE *f) {
-    f = fopen("outputSound.txt", "w");
     int i;
     for (i=0; i<s->length; i++) {
-        fprintf(f, "%lf\n", s->samples[i]);
+        if (fprintf(f, "%lf\n", s->samples[i]) < 0) {
+            return 1;
+        }
     }
-
     return 0;
 }
