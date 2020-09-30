@@ -1,6 +1,8 @@
 #include "gensnd.h"
 
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
 /*
  *  Asks the user for a frequency, sample rate, and duration and prints a
@@ -8,48 +10,34 @@
  */
 int main(int argc, char const *argv[]) {
 
-    if (argc < 2) {
-        fprintf( stderr, "my %s has %d chars\n", "string format", 30);
+    if (argc < 2 || strspn(argv[1], "0123456789abcdABCD*#") != strlen(argv[1])) {
+        fprintf(stderr, "Must include valid phone number with command line parameters\n");
+        return 0;
+    }
+
+    if (argc == 2) {
+        int i;
+        for (i=0; i<strlen(argv[1]); i++) {
+            dualtone(argv[1][i]);
+            silence(8000, 0.25);
+        }
     }
     else {
-        boolean correct = string.matches("[0123456789]+");
-    }
-
-    char* phoneNumber = argv[1];
-    char* fileName = argv[2];
-
-    float frequency;
-    float sampleRate;
-    float duration;
-
-    //The while loops check the user inputs for validity (are positive)
-    //The program will not continue until all inputs are valid.
-    while (1) {
-        printf("Input a positive frequency in hertz:\n");
-        scanf("%f", &frequency);
-
-        if (frequency >= 0) {
-            break;
+        FILE* f = fopen(argv[2], "w");
+        if (f == NULL) {
+            fprintf(stderr, "Invalid filename\n");
+            return 1;
         }
-    }
-    while (1) {
-        printf("Input a positive sample rate in hertz:\n");
-        scanf("%f", &sampleRate);
-
-        if (sampleRate >= 0) {
-            break;
+        sound* tone;
+        int i;
+        for (i=0; i<strlen(argv[1]); i++) {
+            tone = genDTMF2(argv[1][i], 8000, 0.5);
+            outputSound(tone, f);
+            tone = genSilence(8000, 0.25);
+            outputSound(tone, f);
         }
+        fclose(f);
     }
-    while (1) {
-        printf("Input a positive time duraiton in seconds:\n");
-        scanf("%f", &duration);
-
-        if (duration >= 0) {
-            break;
-        }
-    }
-
-    gensine(frequency, sampleRate, duration);
 
     return 0;
 }
