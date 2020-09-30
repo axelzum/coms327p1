@@ -97,6 +97,7 @@ sound* genDTMF2(char key, float sample_rate, float duration) {
     output.length = (int)outputSamples;
     output.rate = sample_rate;
 
+    //Puts the output of gensine2 into a sound before calling gensine2 again to prevent that data from being overwritten.
     int i;
     for(i = 0; i < outputSamples + 1; i++) {
         output.samples[i] = output1->samples[i];
