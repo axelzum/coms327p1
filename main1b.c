@@ -37,8 +37,10 @@ int main(int argc, char const *argv[]) {
         int i;
         for (i=0; i<strlen(argv[1]); i++) {
             tone = genDTMF2(argv[1][i], 8000, 0.5);
+            free(tone);
             outputSound(tone, f);
             tone = genSilence(8000, 0.25);
+            free(tone);
             outputSound(tone, f);
         }
         fclose(f);

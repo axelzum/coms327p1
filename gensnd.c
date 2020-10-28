@@ -27,23 +27,23 @@ void gensine(float frequency, float sampleRate, float duration) {
  *  with the size in the struct being the number of samples generated and
  */
 sound* gensine2(float hertz, float sample_rate, float duration) {
-    static sound output;
+    sound *output = (sound*) malloc(sizeof(sound));
 
     float outputSamples = sample_rate * duration;
-    output.samples = malloc((int)outputSamples * sizeof *output.samples);
-    output.length = (int)outputSamples;
-    output.rate = sample_rate;
+    output->samples = malloc((int)outputSamples * sizeof *output->samples);
+    output->length = (int)outputSamples;
+    output->rate = sample_rate;
     float samplesPerCycle = sample_rate / hertz;
     float outputInterval = (2.0 * M_PI) / samplesPerCycle;
 
     double radians = 0.0;
     int i;
     for(i = 0; i < outputSamples + 1; i++) {
-        output.samples[i] = sin(radians);
+        output->samples[i] = sin(radians);
         radians += outputInterval;
     }
 
-    return &output;
+    return output;
 }
 
 /*
@@ -88,27 +88,24 @@ sound* genDTMF2(char key, float sample_rate, float duration) {
     }
 
     sound* output1 = gensine2(frequency1, sample_rate, duration);
+    sound* output2 = gensine2(frequency2, sample_rate, duration);
 
-
-    static sound output;
+    sound* output = (sound*) malloc(sizeof(sound));
 
     float outputSamples = sample_rate * duration;
-    output.samples = malloc((int)outputSamples * sizeof *output.samples);
-    output.length = (int)outputSamples;
-    output.rate = sample_rate;
+    output->samples = malloc((int)outputSamples * sizeof *output->samples);
+    output->length = (int)outputSamples;
+    output->rate = sample_rate;
 
-    //Puts the output of gensine2 into a sound before calling gensine2 again to prevent that data from being overwritten.
     int i;
     for(i = 0; i < outputSamples + 1; i++) {
-        output.samples[i] = output1->samples[i];
+        output->samples[i] = (output1->samples[i] + output2->samples[i]) / 2;
     }
 
-    sound* output2 = gensine2(frequency2, sample_rate, duration);
-    for(i = 0; i < outputSamples + 1; i++) {
-        output.samples[i] = (output.samples[i] + output2->samples[i]) / 2;
-    }
+    free(output1);
+    free(output2);
 
-    return &output;
+    return output;
 }
 
 /*
@@ -210,19 +207,19 @@ void silence(float sampleRate, float duration) {
  *  Returns a pointer to a sound struct
  */
 sound* genSilence(float sample_rate, float duration) {
-    static sound output;
+    sound *output = (sound*) malloc(sizeof(sound));
 
     float outputSamples = sample_rate * duration;
-    output.samples = malloc((int)outputSamples * sizeof *output.samples);
-    output.length = (int)outputSamples;
-    output.rate = sample_rate;
+    output->samples = malloc((int)outputSamples * sizeof *output->samples);
+    output->length = (int)outputSamples;
+    output->rate = sample_rate;
 
     int i;
     for(i = 0; i < outputSamples + 1; i++) {
-        output.samples[i] = sin(0.0);
+        output->samples[i] = sin(0.0);
     }
 
-    return &output;
+    return output;
 }
 
 /*
