@@ -102,7 +102,9 @@ sound* genDTMF2(char key, float sample_rate, float duration) {
         output->samples[i] = (output1->samples[i] + output2->samples[i]) / 2;
     }
 
+    free(output1->samples);
     free(output1);
+    free(output2->samples);
     free(output2);
 
     return output;
