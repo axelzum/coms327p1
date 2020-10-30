@@ -30,6 +30,89 @@ sound* gensine(float hertz, float sample_rate, float duration) {
     return output;
 }
 
+sound* genSquare(float hertz, float sample_rate, float duration) {
+    sound *output = (sound*) malloc(sizeof(sound));
+
+    float outputSamples = sample_rate * duration;
+    output->samples = malloc((int)outputSamples * sizeof *output->samples);
+    output->length = (int)outputSamples;
+    output->rate = sample_rate;
+
+    float samplesPerCycle = sample_rate / hertz;
+
+    int i;
+    for(i = 0; i < outputSamples + 1; i++) {
+        if (fmod(i, samplesPerCycle) < samplesPerCycle/2.0) {
+            output->samples[i] = -1.0;
+        }
+        else {
+            output->samples[i] = 1.0;
+        }
+    }
+    return output;
+}
+
+sound* genTriangle(float hertz, float sample_rate, float duration) {
+    sound *output = (sound*) malloc(sizeof(sound));
+
+    float outputSamples = sample_rate * duration;
+    output->samples = malloc((int)outputSamples * sizeof *output->samples);
+    output->length = (int)outputSamples;
+    output->rate = sample_rate;
+
+    float samplesPerCycle = sample_rate / hertz;
+    float outputInterval = 2.0 / (samplesPerCycle / 2.0);
+
+    float value = -1.0;
+    int i;
+    for(i = 0; i < outputSamples + 1; i++) {
+        output->samples[i] = value;
+        if (fmod(i, samplesPerCycle) < samplesPerCycle/2.0) {
+            if (value + outputInterval > 1.0) {
+                value = 1.0 - (outputInterval - (1.0 - value));
+            }
+            else {
+                value += outputInterval;
+            }
+        }
+        else {
+            if (value - outputInterval < -1.0) {
+                value = -1.0 + (outputInterval - (value - -1.0));
+            }
+            else {
+                value -= outputInterval;
+            }
+
+        }
+    }
+    return output;
+}
+
+sound* genSawtooth(float hertz, float sample_rate, float duration) {
+    sound *output = (sound*) malloc(sizeof(sound));
+
+    float outputSamples = sample_rate * duration;
+    output->samples = malloc((int)outputSamples * sizeof *output->samples);
+    output->length = (int)outputSamples;
+    output->rate = sample_rate;
+
+    float samplesPerCycle = sample_rate / hertz;
+    float outputInterval = 2.0 / samplesPerCycle;
+
+    float value = -1.0;
+    int i;
+    for(i = 0; i < outputSamples + 1; i++) {
+        output->samples[i] = value;
+        if (i % (int)roundf(samplesPerCycle) == 0 && i != 0) {
+            value = -1;
+        }
+        else {
+            value += outputInterval;
+        }
+    }
+    return output;
+}
+
 /*
  *  Generates a sine wave of two frequencies similar to dualtone() returns a pointer to a
  *  sound struct.
@@ -42,8 +125,8 @@ sound* genDTMF(char key, float sample_rate, float duration) {
         return NULL;
     }
 
-    sound* output1 = gensine2(frequency1, sample_rate, duration);
-    sound* output2 = gensine2(frequency2, sample_rate, duration);
+    sound* output1 = gensine(frequency1, sample_rate, duration);
+    sound* output2 = gensine(frequency2, sample_rate, duration);
 
     sound* output = (sound*) malloc(sizeof(sound));
 
