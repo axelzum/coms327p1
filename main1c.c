@@ -1,6 +1,7 @@
 #include "sound.h"
 #include "gensnd.h"
 #include "iosnd.h"
+#include "process.h"
 
 #include <stdio.h>
 #include <string.h>

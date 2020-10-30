@@ -6,8 +6,8 @@ partb: dtmf
 
 parta: gensine gendial
 
-final: main1c.c gensnd.c iosnd.c
-	gcc -o main main1c.c gensnd.c iosnd.c -lm
+final: main1c.c gensnd.c iosnd.c process.c
+	gcc -o main main1c.c gensnd.c iosnd.c process.c -lm
 
 dtmf: main1b.c gensndOLD.c
 	gcc -o dtmf main1b.c gensndOLD.c -lm
