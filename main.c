@@ -1,4 +1,4 @@
-#include "gensnd.h"
+#include "gensndOLD.h"
 
 #include <stdio.h>
 
@@ -13,7 +13,7 @@ int main(int argc, char const *argv[]) {
     float duration;
 
     //The while loops check the user inputs for validity (are positive)
-    //The program will not continue until all inputs are valid. 
+    //The program will not continue until all inputs are valid.
     while (1) {
         printf("Input a positive frequency in hertz:\n");
         scanf("%f", &frequency);

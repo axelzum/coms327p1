@@ -1,3 +1,6 @@
+#ifndef GENSNDOLD_H
+#define GENSNDOLD_H
+
 #include <stdio.h>
 
 typedef struct sound_t {
@@ -21,3 +24,5 @@ void silence(float sampleRate, float duration);
 sound* genSilence(float sample_rate, float duration);
 
 int outputSound(sound *s, FILE *f);
+
+#endif
