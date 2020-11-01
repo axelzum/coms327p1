@@ -1,4 +1,4 @@
-#include "gensndOLD.h"
+#include "gensnd.h"
 
 #include <math.h>
 #include <stdio.h>
