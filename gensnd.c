@@ -7,8 +7,8 @@
 
 
 /*
- *  Generates a sine wave similar to gensine. Returns a pointer to the sound struct
- *  with the size in the struct being the number of samples generated and
+ *  Generates a sine wave. Returns a pointer to the sound struct
+ *  with the size in the struct being the number of samples generated.
  */
 sound* gensine(float hertz, float sample_rate, float duration) {
     sound *output = (sound*) malloc(sizeof(sound));
@@ -30,6 +30,10 @@ sound* gensine(float hertz, float sample_rate, float duration) {
     return output;
 }
 
+/*
+ *  Generates a square wave. Returns a pointer to the sound struct
+ *  with the size in the struct being the number of samples generated.
+ */
 sound* genSquare(float hertz, float sample_rate, float duration) {
     sound *output = (sound*) malloc(sizeof(sound));
 
@@ -52,6 +56,10 @@ sound* genSquare(float hertz, float sample_rate, float duration) {
     return output;
 }
 
+/*
+ *  Generates a triangle wave. Returns a pointer to the sound struct
+ *  with the size in the struct being the number of samples generated.
+ */
 sound* genTriangle(float hertz, float sample_rate, float duration) {
     sound *output = (sound*) malloc(sizeof(sound));
 
@@ -88,6 +96,10 @@ sound* genTriangle(float hertz, float sample_rate, float duration) {
     return output;
 }
 
+/*
+ *  Generates a sawtooth wave. Returns a pointer to the sound struct
+ *  with the size in the struct being the number of samples generated.
+ */
 sound* genSawtooth(float hertz, float sample_rate, float duration) {
     sound *output = (sound*) malloc(sizeof(sound));
 
@@ -114,8 +126,8 @@ sound* genSawtooth(float hertz, float sample_rate, float duration) {
 }
 
 /*
- *  Generates a sine wave of two frequencies similar to dualtone() returns a pointer to a
- *  sound struct.
+ *  Generates a sine wave of two frequencies corresponding to a key on a touch
+ *  tone phone. returns a pointer to a sound struct.
  */
 sound* genDTMF(char key, float sample_rate, float duration) {
     float frequency1, frequency2;

@@ -10,9 +10,11 @@
 
 /*
  *  Takes two arguments.
- *  The first is a phone number of any size. This argument is required and must contain
- *  only allowed characters.
- *  The second is a filename to write to. If no file argument is included program writes to stdout.
+ *  The first is an input filename that must be formatted in a specific way as
+ *  indicated by the project 1 part c instructions. The order of commands in the firLength
+ *  is SAMPLERATE, WAVE, SOUND, SONG.
+ *  The second argument is an output filename which the program outputs a txt file
+ *  with the wave formate for the input song.
  */
 int main(int argc, char const *argv[]) {
 
@@ -31,6 +33,7 @@ int main(int argc, char const *argv[]) {
         return 1;
     }
 
+    //Set up linked lists to save objects in the input file.
     float sampleRate;
     waveNode* waveHead = (waveNode*) malloc(sizeof(waveNode));
     waveHead->next = NULL;
@@ -38,7 +41,8 @@ int main(int argc, char const *argv[]) {
     soundHead->next = NULL;
     songNode* songHead = NULL;
 
-
+    //While in the loop, continuously reads lines of the input file, but handles
+    //those based on a state machine.
     int state = 0;
     float songEnd = 0.0;
     char line[512];
@@ -46,7 +50,7 @@ int main(int argc, char const *argv[]) {
     while (fgets(line, sizeof(line), file)) {
         strtok(line, "\n");
 
-        //File start, looking for SAMPLERATE
+        //State 0: File start, looking for SAMPLERATE
         if (state == 0) {
             if (strcmp(line, "SAMPLERATE") != 0) {
                 fprintf(stderr, "Song file must begin with 'SAMPLERATE'\n");
@@ -59,7 +63,7 @@ int main(int argc, char const *argv[]) {
                 state = 1;
             }
         }
-        //After SAMPLERATE, looking for WAVE
+        //State 1: After SAMPLERATE, looking for WAVE
         else if (state == 1) {
             if (strcmp(line, "\n") == 0) {
                 continue;
@@ -83,7 +87,7 @@ int main(int argc, char const *argv[]) {
                 state = 2;
             }
         }
-        //After first WAVE, looking for more WAVE or SOUND
+        //State 2: After first WAVE, looking for more WAVE or SOUND
         else if (state == 2) {
             if (strcmp(line, "\n") == 0) {
                 continue;
@@ -131,6 +135,7 @@ int main(int argc, char const *argv[]) {
                 return 1;
             }
         }
+        //State 3: After first SOUND, looking for SOUND or SONG
         else if (state == 3) {
             if (strcmp(line, "\n") == 0) {
                 continue;
@@ -168,6 +173,7 @@ int main(int argc, char const *argv[]) {
                 return 1;
             }
         }
+        //State 4: Reading song, once the song is in a linked list end the loop
         else if (state == 4) {
             strtok(line, "\n");
             if (strcmp(line, "\n") == 0) {

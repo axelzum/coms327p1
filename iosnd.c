@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 /*
- *  Takes a sound as an input and outputs to a file in rows similar to part a.
+ *  Takes a sound as an input and outputs to a file in rows.
  *  Returns 0 if write was a success, 1 otherwise.
  */
 int outputSound(sound *s, FILE *f) {

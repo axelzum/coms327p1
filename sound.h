@@ -7,6 +7,7 @@ typedef struct sound_t {
     float rate;     // Sample rate for sequence of samples
 } sound;
 
+//  Linked list to hold data in WAVE objects in input file
 typedef struct waveNode {
     char name[256];
     char type[10];
@@ -15,6 +16,7 @@ typedef struct waveNode {
     struct waveNode* next;
 } waveNode;
 
+//  Linked list to hold data in SOUND objects in input file
 typedef struct soundNode {
     char name[256];
     char waves[1024][256];
@@ -23,6 +25,7 @@ typedef struct soundNode {
     struct soundNode* next;
 } soundNode;
 
+//  Linked list to hold sounds from SONG part of input file
 typedef struct songNode {
     sound* sound;
     float startTime;

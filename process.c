@@ -4,6 +4,11 @@
 
 #include <math.h>
 
+/*
+ *  Mixes an array of sounds into one sound using a simple multiplicative factor.
+ *  All the sounds in the input s must have the same sample rate. Multiplication
+ *  rates are in w and correspond to the same elements in s.
+ */
 sound* mix(sound *s[], float w[], int c) {
     int longestSound = s[0]->length;
     int sampleRate = s[0]->rate;
@@ -38,6 +43,10 @@ sound* mix(sound *s[], float w[], int c) {
     return output;
 }
 
+/*
+ *  Multiplies two sounds together and outputs the result in on sound. Both Sounds
+ *  s1 and s2 must have the same sample rate and length.
+ */
 sound* modulate(sound *s1, sound *s2) {
     if (s1->rate != s2->rate || s1->length != s2->length) {
         fprintf(stderr, "Sounds have differing sample rates or lengths.\n");
@@ -57,6 +66,10 @@ sound* modulate(sound *s1, sound *s2) {
     return output;
 }
 
+/*
+ *  Applys a filter to a given sound s using the fir array and a process called
+ *  convolution.
+ */
 sound* filter(sound *s, float fir[], int c) {
     sound *output = (sound*) malloc(sizeof(sound));
     output->samples = malloc(s->length * sizeof *output->samples);
@@ -76,6 +89,10 @@ sound* filter(sound *s, float fir[], int c) {
     return output;
 }
 
+/*
+ *  Adds a reverb effect to a sound s. The delay and attenuation are used to apply
+ *  a filter to s.
+ */
 sound* reverb(sound *s, float delay, float attenuation) {
     if (s == NULL) {
         fprintf(stderr, "Given sound is null.\n");
@@ -104,6 +121,9 @@ sound* reverb(sound *s, float delay, float attenuation) {
 
 }
 
+/*
+ *  Similar to reverb, echo applys a filter to a sound s with a delay parameter 0.1 and 1 second.
+ */
 sound* echo(sound *s, float delay, float attenuation) {
     if (s == NULL) {
         fprintf(stderr, "Given sound is null.\n");
