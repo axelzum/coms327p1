@@ -1,5 +1,15 @@
 # coms327p1
 
+### Part C
+Running the makefile in this project generates one executable: playsong
+
+#### playsong
+Playsong takes a song inputfile name. The file is laid out with tags SAMPLERATE, WAVE, SOUND, SONG
+in that speciic order with a certain definition of subline as laid out in project instuctions.
+
+The program uses this information to generate one output file with a sound waveform that plays
+the notes represented in the song file.
+
 ### Part B
 Running the makefile in this project generates one executable: dtmf
 
