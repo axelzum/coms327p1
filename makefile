@@ -1,7 +1,7 @@
-partc: final
+all: partc
 
-final: main1c.c gensnd.c iosnd.c process.c
-	gcc -o main main1c.c gensnd.c iosnd.c process.c -lm
+partc: playsong.c gensnd.c iosnd.c process.c
+	gcc -o playsong playsong.c gensnd.c iosnd.c process.c -lm
 
 clean:
-	rm -f main *~
+	rm -f playsong *~
